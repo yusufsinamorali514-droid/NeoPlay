@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Basketball Game</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #87ceeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  canvas {
+    background: #228B22;
+    border: 2px solid black;
+    border-radius: 10px;
+  }
+
+  a {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  #leaderboard {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    color: black;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="game" width="500" height="500"></canvas>
+<a href="index.html">← Back to NeoPlay</a>
+<div id="leaderboard">Leaderboard:<br></div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let ball = { x: 250, y: 450, radius: 15, dx: 0, dy: 0 };
+let hoop = { x: 200, y: 50, width: 100, height: 10, dx: 2 };
+let score = 0;
+let gravity = 0.5;
+let shooting = false;
+
+// Leaderboard
+let leaderboard = JSON.parse(localStorage.getItem("basketballLeaderboard")) || [];
+
+function drawHoop() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(hoop.x, hoop.y, hoop.width, hoop.height);
+}
+
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+  ctx.fillStyle = "orange";
+  ctx.fill();
+  ctx.closePath();
+}
+
+function drawScore() {
+  ctx.fillStyle = "black";
+  ctx.font = "20px Arial";
+  ctx.fillText("Score: " + score, 10, 30);
+}
+
+function updateLeaderboard() {
+  // sort top 5 scores
+  leaderboard.sort((a, b) => b - a);
+  leaderboard = leaderboard.slice(0, 5);
+  localStorage.setItem("basketballLeaderboard", JSON.stringify(leaderboard));
+  const lb = document.getElementById("leaderboard");
+  lb.innerHTML = "Leaderboard:<br>" + leaderboard.map((s,i)=> `${i+1}. ${s}`).join("<br>");
+}
+
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawHoop();
+  drawBall();
+  drawScore();
+
+  // Hoop movement
+  hoop.x += hoop.dx;
+  if (hoop.x <= 0 || hoop.x + hoop.width >= canvas.width) hoop.dx *= -1;
+
+  // Ball movement
+  if (shooting) {
+    ball.dy += gravity;
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+
+    // Check collision with hoop
+    if (
+      ball.x > hoop.x && ball.x < hoop.x + hoop.width &&
+      ball.y - ball.radius < hoop.y + hoop.height &&
+      ball.y + ball.radius > hoop.y
+    ) {
+      score++;
+      resetBall();
+    }
+
+    // Hit floor
+    if (ball.y + ball.radius > canvas.height) {
+      leaderboard.push(score);
+      updateLeaderboard();
+      resetBall();
+      score = 0;
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+function resetBall() {
+  ball.x = 250;
+  ball.y = 450;
+  ball.dx = 0;
+  ball.dy = 0;
+  shooting = false;
+}
+
+// Shoot ball
+canvas.addEventListener("click", (e) => {
+  if (!shooting) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    ball.dx = (mouseX - ball.x) / 15;
+    ball.dy = (mouseY - ball.y) / 15;
+    shooting = true;
+  }
+});
+
+updateLeaderboard();
+update();
+</script>
+
+</body>
+</html>
