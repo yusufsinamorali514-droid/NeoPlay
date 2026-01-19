@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hacking the Password</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: black;
+    color: #00ff88;
+    margin: 0;
+    padding: 0;
+  }
+
+  .terminal {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 20px;
+    border: 2px solid #00ff88;
+    background: #020202;
+    box-shadow: 0 0 20px #00ff88;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .log {
+    min-height: 120px;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    background: black;
+    color: #00ff88;
+    border: 1px solid #00ff88;
+    outline: none;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #00ff88;
+    color: black;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #00cc66;
+  }
+
+  a {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #00ff88;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal">
+  <h1>Hacking the Password</h1>
+
+  <div class="log" id="log">
+    > System locked.<br>
+    > Password length: 5<br>
+    > Hints:<br>
+    > - Starts with a letter<br>
+    > - Ends with a number<br>
+    > - Contains "A"<br><br>
+    Type your guess:
+  </div>
+
+  <input id="guess" placeholder="Enter password...">
+  <button onclick="check()">Hack</button>
+
+  <a href="index.html">← Back to NeoPlay</a>
+</div>
+
+<script>
+const password = "ALPHA7";
+const log = document.getElementById("log");
+const input = document.getElementById("guess");
+
+function check() {
+  const g = input.value.toUpperCase();
+  if (!g) return;
+
+  if (g === password) {
+    log.innerHTML += "<br>> Access Granted!";
+    log.innerHTML += "<br>> System hacked successfully.";
+  } else {
+    let correct = 0;
+    for (let i = 0; i < Math.min(g.length, password.length); i++) {
+      if (g[i] === password[i]) correct++;
+    }
+    log.innerHTML += `<br>> "${g}" incorrect. ${correct} characters correct.`;
+  }
+
+  input.value = "";
+}
+</script>
+
+</body>
+</html>
