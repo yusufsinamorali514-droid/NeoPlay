@@ -53,6 +53,12 @@
       color: #555;
     }
 
+    #leaderboard {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #333;
+    }
+
     a {
       display: block;
       margin-top: 30px;
@@ -77,6 +83,8 @@
 
     <div id="result"></div>
 
+    <div id="leaderboard"><strong>Leaderboard (WPM):</strong><br>No scores yet.</div>
+
     <a href="index.html">← Back to NeoPlay</a>
   </div>
 
@@ -93,23 +101,30 @@
     const inputBox = document.getElementById("inputBox");
     const sentenceEl = document.getElementById("sentence");
     const resultEl = document.getElementById("result");
+    const leaderboardEl = document.getElementById("leaderboard");
 
     let startTime, currentSentence;
 
+    // Load leaderboard from localStorage
+    let leaderboard = JSON.parse(localStorage.getItem("typingLeaderboard")) || [];
+
+    function updateLeaderboard() {
+      if (leaderboard.length === 0) {
+        leaderboardEl.innerHTML = "<strong>Leaderboard (WPM):</strong><br>No scores yet.";
+        return;
+      }
+      const topScores = leaderboard.slice().sort((a,b)=>b-a).slice(0,5);
+      leaderboardEl.innerHTML = "<strong>Leaderboard (WPM):</strong><br>" + topScores.join("<br>");
+    }
+
     startBtn.addEventListener("click", () => {
-      // Pick a random sentence
       currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
       sentenceEl.textContent = currentSentence;
 
-      // Clear input and result
       inputBox.value = "";
       resultEl.textContent = "";
-
-      // Enable input and focus
       inputBox.disabled = false;
       inputBox.focus();
-
-      // Record start time
       startTime = Date.now();
     });
 
@@ -122,8 +137,16 @@
 
         resultEl.textContent = `✅ Finished! Time: ${timeTaken.toFixed(2)} sec, WPM: ${wpm}`;
         inputBox.disabled = true;
+
+        // Save to leaderboard
+        leaderboard.push(wpm);
+        localStorage.setItem("typingLeaderboard", JSON.stringify(leaderboard));
+        updateLeaderboard();
       }
     });
+
+    // Show leaderboard on load
+    updateLeaderboard();
   </script>
 </body>
 </html>
