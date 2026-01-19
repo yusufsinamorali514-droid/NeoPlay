@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Play Piano</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #222;
+  color: white;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 { margin-bottom: 20px; }
+
+#piano {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.key {
+  width: 60px;
+  height: 200px;
+  margin: 2px;
+  border: 1px solid #000;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+  font-size: 14px;
+  line-height: 200px;
+  color: black;
+  transition: 0.1s;
+}
+
+.key:active {
+  background: #ddd;
+}
+
+a {
+  display: block;
+  margin-top: 20px;
+  color: white;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Play Piano</h1>
+
+<div id="piano">
+  <div class="key" data-note="C">C</div>
+  <div class="key" data-note="D">D</div>
+  <div class="key" data-note="E">E</div>
+  <div class="key" data-note="F">F</div>
+  <div class="key" data-note="G">G</div>
+  <div class="key" data-note="A">A</div>
+  <div class="key" data-note="B">B</div>
+  <div class="key" data-note="C2">C</div>
+</div>
+
+<a href="index.html">← Back to NeoPlay</a>
+
+<script>
+// Play sound
+const keys = document.querySelectorAll('.key');
+
+keys.forEach(key => {
+  key.addEventListener('click', () => {
+    const note = key.dataset.note;
+   const audio = new Audio(`sounds/${note}.mp3`);
+
+    audio.play();
+  });
+});
+</script>
+
+</body>
+</html>
+
