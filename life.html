@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life in Seconds</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    input, button {
+      font-size: 18px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #555;
+    }
+
+    a {
+      display: block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: black;
+      font-size: 18px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Life in Seconds</h1>
+
+    <label for="birthday">Enter your birthday:</label><br>
+    <input type="date" id="birthday"><br>
+    <button id="calcBtn">Calculate</button>
+
+    <div class="result" id="result"></div>
+
+    <a href="index.html">← Back to NeoPlay</a>
+  </div>
+
+  <script>
+    const calcBtn = document.getElementById("calcBtn");
+    const result = document.getElementById("result");
+    const birthdayInput = document.getElementById("birthday");
+
+    calcBtn.addEventListener("click", () => {
+      const birthday = new Date(birthdayInput.value);
+      if (!birthday.getTime()) {
+        result.textContent = "Please enter a valid date!";
+        return;
+      }
+
+      const now = new Date();
+      const seconds = Math.floor((now - birthday) / 1000);
+
+      result.textContent = `You have lived approximately ${seconds.toLocaleString()} seconds!`;
+    });
+  </script>
+</body>
+</html>

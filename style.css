@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.center {
+  max-width: 600px;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+h1 {
+  font-size: 8vw;
+  margin-bottom: 1em;
+}
+
+p {
+  color: #555;
+  font-size: 4vw;
+}
+
+button {
+  font-size: 5vw;
+  padding: 15px 30px;
+  cursor: pointer;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+.links a {
+  display: block;
+  margin-top: 20px;
+  font-size: 5vw;
+  text-decoration: none;
+  color: black;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+@media(min-width: 768px) {
+  h1 {
+    font-size: 64px;
+  }
+  p {
+    font-size: 18px;
+  }
+  button {
+    font-size: 24px;
+  }
+  .links a {
+    font-size: 24px;
+  }
+}
+body {
+  background: white;  /* changed from dark to white */
+  color: black;       /* text color black for contrast */
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.cps-container {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.panels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.panel {
+  flex: 1;
+  margin: 0 5px;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+}
+
+.timer { background: #6a11cb; }
+.clicks { background: #ff8008; }
+.score { background: #00b09b; }
+
+.panel span {
+  display: block;
+  font-size: 2em;
+  margin-bottom: 5px;
+}
+
+.click-area {
+  background: #f0f0f0;  /* light gray click area */
+  padding: 50px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.2s;
+  color: black;
+  font-weight: bold;
+}
+
+.click-area:hover {
+  background: #e0e0e0;
+}
+
+.time-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.time-btn {
+  background: #ddd;  /* light gray button */
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.time-btn:hover {
+  background: #ccc;
+}
+
+.time-btn.active {
+  background: orange;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+.hidden {
+  display: none;
+}
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reaction Test</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      text-align: center;
+      transition: background 0.2s;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    #message {
+      font-size: 32px;
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 28px;
+      color: #555;
+    }
+
+    #leaderboard {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    a {
+      display: block;
+      margin-top: 40px;
+      text-decoration: none;
+      color: black;
+      font-size: 20px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="message">Click anywhere to start the reaction test</div>
+    <div id="result"></div>
+    <div id="leaderboard"></div>
+    <a href="index.html">← Back to NeoPlay</a>
+  </div>
+
+  <script>
+    const body = document.body;
+    const message = document.getElementById("message");
+    const result = document.getElementById("result");
+    const leaderboardEl = document.getElementById("leaderboard");
+
+    let startTime = 0;
+    let timeoutId = null;
+    let waiting = false;
+
+    // load leaderboard from localStorage
+    let leaderboard = JSON.parse(localStorage.getItem("reactionLeaderboard")) || [];
+
+    function updateLeaderboard() {
+      if (leaderboard.length === 0) {
+        leaderboardEl.innerHTML = "No best times yet.";
+        return;
+      }
+
+      const sorted = leaderboard.slice().sort((a,b)=>a-b).slice(0,5);
+      leaderboardEl.innerHTML = "<strong>Top 5 Times (ms):</strong><br>" + sorted.join("<br>");
+    }
+
+    function startGame() {
+      body.style.background = "#f0f0f0";
+      message.textContent = "Get ready...";
+      result.textContent = "";
+      waiting = true;
+
+      const delay = Math.floor(Math.random() * 3000) + 2000;
+
+      timeoutId = setTimeout(() => {
+        body.style.background = "green";
+        message.textContent = "CLICK!";
+        startTime = Date.now();
+        waiting = false;
+      }, delay);
+    }
+
+    function clickHandler() {
+      if (waiting) {
+        clearTimeout(timeoutId);
+        message.textContent = "Too soon! Click to try again.";
+        body.style.background = "#f0f0f0";
+      } else if (startTime) {
+        const reaction = Date.now() - startTime;
+        result.textContent = `Your reaction time: ${reaction} ms`;
+        message.textContent = "Click anywhere to try again";
+        startTime = 0;
+        body.style.background = "#f0f0f0";
+
+        // save to leaderboard
+        leaderboard.push(reaction);
+        localStorage.setItem("reactionLeaderboard", JSON.stringify(leaderboard));
+        updateLeaderboard();
+      } else {
+        startGame();
+      }
+    }
+
+    body.addEventListener("click", clickHandler);
+    updateLeaderboard();
+  </script>
+</body>
+</html>

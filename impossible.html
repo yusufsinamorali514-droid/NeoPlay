@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impossible Button</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #game-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #impossibleBtn {
+      position: absolute;
+      padding: 15px 30px;
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background: black;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    #impossibleBtn:hover {
+      background: #333;
+    }
+
+    a {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-decoration: none;
+      color: black;
+      font-size: 18px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <button id="impossibleBtn">Click Me!</button>
+    <a href="index.html">← Back to NeoPlay</a>
+  </div>
+
+  <script>
+    const btn = document.getElementById("impossibleBtn");
+    const container = document.getElementById("game-container");
+
+    function moveButton() {
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+
+      // calculate random position within container
+      const maxX = containerRect.width - btnRect.width;
+      const maxY = containerRect.height - btnRect.height;
+
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      btn.style.left = randomX + "px";
+      btn.style.top = randomY + "px";
+    }
+
+    // move button when mouse is close
+    btn.addEventListener("mouseenter", moveButton);
+
+    // Optional: you can also move it continuously if you want it very impossible
+    // container.addEventListener("mousemove", moveButton);
+  </script>
+</body>
+</html>
