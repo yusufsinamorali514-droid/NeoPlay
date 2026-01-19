@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Idle Clicker</title>
   <style>
     body {
@@ -46,7 +47,13 @@
     }
 
     .shop {
+      margin-top: 20px;
+    }
+
+    .leaderboard {
       margin-top: 30px;
+      font-size: 20px;
+      color: #333;
     }
 
     .back {
@@ -69,10 +76,15 @@
       <button id="upgradeBtn">Buy (Cost: <span id="cost">10</span>)</button>
     </div>
 
+    <div class="leaderboard">
+      <strong>Highest Score:</strong> <span id="highScore">0</span>
+    </div>
+
     <a class="back" href="index.html">← Back to NeoPlay</a>
   </div>
 
   <script>
+    // Variables
     let points = 0;
     let perClick = 1;
     let cost = 10;
@@ -81,12 +93,29 @@
     const costEl = document.getElementById("cost");
     const clickBtn = document.getElementById("clickBtn");
     const upgradeBtn = document.getElementById("upgradeBtn");
+    const highScoreEl = document.getElementById("highScore");
 
+    // Load leaderboard from localStorage
+    let highScore = parseInt(localStorage.getItem("idleHighScore")) || 0;
+    highScoreEl.textContent = highScore;
+
+    // Update score
+    function updateScore() {
+      pointsEl.textContent = points;
+      if (points > highScore) {
+        highScore = points;
+        localStorage.setItem("idleHighScore", highScore);
+        highScoreEl.textContent = highScore;
+      }
+    }
+
+    // Click button
     clickBtn.addEventListener("click", () => {
       points += perClick;
-      pointsEl.textContent = points;
+      updateScore();
     });
 
+    // Upgrade button
     upgradeBtn.addEventListener("click", () => {
       if (points >= cost) {
         points -= cost;
@@ -95,6 +124,7 @@
 
         pointsEl.textContent = points;
         costEl.textContent = cost;
+        updateScore();
       } else {
         alert("Not enough points!");
       }
