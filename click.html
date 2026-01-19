@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPS Tester</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cps-container">
+    <h1>CPS TESTER</h1>
+
+    <!-- Display Panels -->
+    <div class="panels">
+      <div class="panel timer">
+        <span id="timer">0</span>
+        <p>Timer</p>
+      </div>
+      <div class="panel clicks">
+        <span id="clicks">0</span>
+        <p>Click/s</p>
+      </div>
+      <div class="panel score">
+        <span id="score">0</span>
+        <p>Score</p>
+      </div>
+    </div>
+
+    <!-- Click area -->
+    <div class="click-area" id="click-area">
+      CLICK HERE TO START PLAYING
+    </div>
+
+    <!-- Time Selection -->
+    <div class="time-selection">
+      <button class="time-btn" data-time="1">1 Second Test</button>
+      <button class="time-btn" data-time="2">2 Second Test</button>
+      <button class="time-btn" data-time="5">5 Second Test</button>
+      <button class="time-btn" data-time="10">10 Second Test</button>
+      <button class="time-btn" data-time="15">15 Second Test</button>
+      <button class="time-btn" data-time="30">30 Second Test</button>
+      <button class="time-btn" data-time="60">60 Second Test</button>
+    </div>
+
+    <div style="margin-top:20px;">
+      <a href="index.html">Back to NeoPlay</a>
+    </div>
+  </div>
+
+  <script src="click.js"></script>
+</body>
+</html>
