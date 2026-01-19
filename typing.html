@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Test</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    #sentence {
+      font-size: 24px;
+      margin: 20px 0;
+      color: #555;
+    }
+
+    input, button {
+      font-size: 18px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #555;
+    }
+
+    a {
+      display: block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: black;
+      font-size: 18px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Typing Speed Test</h1>
+
+    <div id="sentence">Click "Start Test" to begin.</div>
+    <input type="text" id="inputBox" placeholder="Type here..." disabled>
+    <br>
+    <button id="startBtn">Start Test</button>
+
+    <div id="result"></div>
+
+    <a href="index.html">← Back to NeoPlay</a>
+  </div>
+
+  <script>
+    const sentences = [
+      "The quick brown fox jumps over the lazy dog.",
+      "NeoPlay is a fun platform for mini-games.",
+      "Typing speed tests are a great way to practice.",
+      "Code, play, learn, repeat every day.",
+      "Hello world! Welcome to NeoPlay."
+    ];
+
+    const startBtn = document.getElementById("startBtn");
+    const inputBox = document.getElementById("inputBox");
+    const sentenceEl = document.getElementById("sentence");
+    const resultEl = document.getElementById("result");
+
+    let startTime, currentSentence;
+
+    startBtn.addEventListener("click", () => {
+      // Pick a random sentence
+      currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+      sentenceEl.textContent = currentSentence;
+
+      // Clear input and result
+      inputBox.value = "";
+      resultEl.textContent = "";
+
+      // Enable input and focus
+      inputBox.disabled = false;
+      inputBox.focus();
+
+      // Record start time
+      startTime = Date.now();
+    });
+
+    inputBox.addEventListener("input", () => {
+      if (inputBox.value === currentSentence) {
+        const endTime = Date.now();
+        const timeTaken = (endTime - startTime) / 1000; // seconds
+        const words = currentSentence.split(" ").length;
+        const wpm = Math.round((words / timeTaken) * 60);
+
+        resultEl.textContent = `✅ Finished! Time: ${timeTaken.toFixed(2)} sec, WPM: ${wpm}`;
+        inputBox.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>
